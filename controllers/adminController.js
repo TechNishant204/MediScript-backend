@@ -107,14 +107,15 @@ const loginAdmin = async (req, res) => {
   }
 };
 
-// API to get all doctors list for admin panel
 const allDoctors = async (req, res) => {
   try {
-    const doctors = await doctorModel.find({}).select("-password");
+    // Use lean() to get plain JS objects and exclude password field
+    const doctors = await doctorModel.find({}, "-password").lean();
+
     res.json({ success: true, doctors });
   } catch (error) {
-    console.log(error);
-    res.json({ success: false, message: error.message });
+    console.error(error);
+    res.json({ success: false, message: "Failed to fetch doctors" });
   }
 };
 
