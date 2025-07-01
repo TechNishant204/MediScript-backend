@@ -15,7 +15,16 @@ connectCloudinary();
 
 // middlewares
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://mediscript-doctor-appointment-app.vercel.app/",
+      "https://medi-script-admin.vercel.app/",
+    ],
+    credentials: true,
+  })
+);
 
 // api endpoints
 app.use("/api/admin", adminRouter);
