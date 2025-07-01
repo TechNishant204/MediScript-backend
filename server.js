@@ -19,8 +19,8 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://mediscript-doctor-appointment-app.vercel.app/",
-      "https://medi-script-admin.vercel.app/",
+      "https://mediscript-doctor-appointment-app.vercel.app",
+      "https://medi-script-admin.vercel.app",
     ],
     credentials: true,
   })
@@ -32,7 +32,7 @@ app.use("/api/doctor", doctorRouter);
 app.use("/api/user", userRouter);
 
 // default route
-app.get("/", (req, res) => {
+app.get("/", (_, res) => {
   res.send("Welcome to Doc Appointment Backend");
 });
 
