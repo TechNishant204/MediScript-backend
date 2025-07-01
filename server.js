@@ -21,7 +21,7 @@ app.use(
       "http://localhost:5173",
       "https://mediscript-doctor-appointment-app.vercel.app",
       "https://medi-script-admin.vercel.app",
-      "https://medi-script-admin.vercel.app/", // sometimes trailing slash matters
+      "https://medi-script-admin.vercel.app",
     ],
     credentials: true,
   })
