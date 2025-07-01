@@ -13,19 +13,34 @@ const port = process.env.PORT || 4000;
 connectDB();
 connectCloudinary();
 
+// Enhanced CORS configuration
+const corsOptions = {
+  origin: [
+    "http://localhost:5173",
+    "https://mediscript-doctor-appointment-app.vercel.app",
+    "https://medi-script-admin.vercel.app",
+  ],
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: [
+    "Content-Type",
+    "Authorization",
+    "token",
+    "X-Requested-With",
+    "Accept",
+    "Origin",
+  ],
+  optionsSuccessStatus: 200, // for legacy browser support
+};
+
+// Apply CORS before other middlewares
+app.use(cors(corsOptions));
+
+// Handle preflight requests explicitly
+app.options("*", cors(corsOptions));
+
 // middlewares
 app.use(express.json());
-app.use(
-  cors({
-    origin: [
-      "http://localhost:5173",
-      "https://mediscript-doctor-appointment-app.vercel.app",
-      "https://medi-script-admin.vercel.app",
-      "https://medi-script-admin.vercel.app",
-    ],
-    credentials: true,
-  })
-);
 
 // api endpoints
 app.use("/api/admin", adminRouter);
