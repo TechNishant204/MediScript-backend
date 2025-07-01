@@ -13,7 +13,7 @@ const addDoctor = async (req, res) => {
       name,
       email,
       password,
-      speciality,
+      specialty,
       degree,
       experience,
       about,
@@ -27,7 +27,7 @@ const addDoctor = async (req, res) => {
       !name ||
       !email ||
       !password ||
-      !speciality ||
+      !specialty ||
       !degree ||
       !experience ||
       !about ||
@@ -68,7 +68,7 @@ const addDoctor = async (req, res) => {
       email,
       image: imageUrl,
       password: hashedPassword,
-      speciality,
+      specialty,
       degree,
       experience,
       about,
@@ -107,10 +107,13 @@ const loginAdmin = async (req, res) => {
   }
 };
 
-const allDoctors = async (req, res) => {
+const allDoctors = async (_req, res) => {
   try {
     // Use lean() to get plain JS objects and exclude password field
-    const doctors = await doctorModel.find({}, "-password").lean();
+    const doctors = await doctorModel
+      .find({}, "-password")
+      .lean()
+      .maxTimeMS(10000);
 
     res.json({ success: true, doctors });
   } catch (error) {
@@ -120,9 +123,9 @@ const allDoctors = async (req, res) => {
 };
 
 // API to get all appointments list
-const appointmentsAdmin = async (req, res) => {
+const appointmentsAdmin = async (_req, res) => {
   try {
-    const appointments = await appointmentModel.find({});
+    const appointments = await appointmentModel.find({}).maxTimeMS(10000);
     res.json({ success: true, appointments });
   } catch (error) {
     console.log(error);
@@ -163,11 +166,11 @@ const appointmentCancel = async (req, res) => {
 };
 
 // API to get dashboard data for admin panel
-const adminDashboard = async (req, res) => {
+const adminDashboard = async (_req, res) => {
   try {
-    const doctors = await doctorModel.find({});
-    const users = await userModel.find({});
-    const appointments = await appointmentModel.find({});
+    const doctors = await doctorModel.find({}).maxTimeMS(10000);
+    const users = await userModel.find({}).maxTimeMS(10000);
+    const appointments = await appointmentModel.find({}).maxTimeMS(10000);
 
     const dashData = {
       doctors: doctors.length,
